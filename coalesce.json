@@ -1,0 +1,16 @@
+{
+  "webProject": {
+    "projectFile": "./BlueLight.Web/BlueLight.Web.csproj"
+  },
+  "dataProject": {
+    "projectFile": "./BlueLight.Data/BlueLight.Data.csproj"
+  },
+
+  "rootGenerator": "Vue",
+
+  "generatorConfig": {
+    "Scripts": {
+      "targetDirectory": "../src"
+    }
+  }
+}
