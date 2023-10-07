@@ -28,6 +28,7 @@ export interface EventViewModel extends $models.Event {
   name: string | null;
   date: Date | null;
   description: string | null;
+  isActive: boolean | null;
   eventTimes: EventTimeViewModel[] | null;
 }
 export class EventViewModel extends ViewModel<$models.Event, $apiClients.EventApiClient, string> implements $models.Event  {
@@ -56,6 +57,7 @@ export interface EventRegistrationViewModel extends $models.EventRegistration {
   eventTimeId: string | null;
   eventTime: EventTimeViewModel | null;
   email: string | null;
+  phone: string | null;
   notes: string | null;
   quantity: number | null;
 }
@@ -103,6 +105,36 @@ export class EventTimeListViewModel extends ListViewModel<$models.EventTime, $ap
 }
 
 
+export class SignUpServiceViewModel extends ServiceViewModel<typeof $metadata.SignUpService, $apiClients.SignUpServiceApiClient> {
+  
+  public get currentEvents() {
+    const currentEvents = this.$apiClient.$makeCaller(
+      this.$metadata.methods.currentEvents,
+      (c) => c.currentEvents(),
+      () => ({}),
+      (c, args) => c.currentEvents())
+    
+    Object.defineProperty(this, 'currentEvents', {value: currentEvents});
+    return currentEvents
+  }
+  
+  public get register() {
+    const register = this.$apiClient.$makeCaller(
+      this.$metadata.methods.register,
+      (c, eventTimeId: string | null, email: string | null, phone: string | null, quantity: number | null, notes: string | null) => c.register(eventTimeId, email, phone, quantity, notes),
+      () => ({eventTimeId: null as string | null, email: null as string | null, phone: null as string | null, quantity: null as number | null, notes: null as string | null, }),
+      (c, args) => c.register(args.eventTimeId, args.email, args.phone, args.quantity, args.notes))
+    
+    Object.defineProperty(this, 'register', {value: register});
+    return register
+  }
+  
+  constructor() {
+    super($metadata.SignUpService, new $apiClients.SignUpServiceApiClient())
+  }
+}
+
+
 const viewModelTypeLookup = ViewModel.typeLookup = {
   ApplicationUser: ApplicationUserViewModel,
   Event: EventViewModel,
@@ -116,5 +148,6 @@ const listViewModelTypeLookup = ListViewModel.typeLookup = {
   EventTime: EventTimeListViewModel,
 }
 const serviceViewModelTypeLookup = ServiceViewModel.typeLookup = {
+  SignUpService: SignUpServiceViewModel,
 }
 

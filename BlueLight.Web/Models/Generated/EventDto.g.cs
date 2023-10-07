@@ -16,6 +16,7 @@ namespace BlueLight.Web.Models
         private string _Name;
         private System.DateTime? _Date;
         private string _Description;
+        private bool? _IsActive;
         private System.Collections.Generic.ICollection<BlueLight.Web.Models.EventTimeDtoGen> _EventTimes;
 
         public System.Guid? EventId
@@ -38,6 +39,11 @@ namespace BlueLight.Web.Models
             get => _Description;
             set { _Description = value; Changed(nameof(Description)); }
         }
+        public bool? IsActive
+        {
+            get => _IsActive;
+            set { _IsActive = value; Changed(nameof(IsActive)); }
+        }
         public System.Collections.Generic.ICollection<BlueLight.Web.Models.EventTimeDtoGen> EventTimes
         {
             get => _EventTimes;
@@ -56,6 +62,7 @@ namespace BlueLight.Web.Models
             this.Name = obj.Name;
             this.Date = obj.Date;
             this.Description = obj.Description;
+            this.IsActive = obj.IsActive;
             var propValEventTimes = obj.EventTimes;
             if (propValEventTimes != null && (tree == null || tree[nameof(this.EventTimes)] != null))
             {
@@ -83,6 +90,7 @@ namespace BlueLight.Web.Models
             if (ShouldMapTo(nameof(Name))) entity.Name = Name;
             if (ShouldMapTo(nameof(Date))) entity.Date = (Date ?? entity.Date);
             if (ShouldMapTo(nameof(Description))) entity.Description = Description;
+            if (ShouldMapTo(nameof(IsActive))) entity.IsActive = (IsActive ?? entity.IsActive);
         }
 
         /// <summary>

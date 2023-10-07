@@ -11,6 +11,7 @@ public class Event
     public string Name { get; set; } = null!;
     public DateTime Date { get; set; }
     public string Description { get; set; } = null!;
+    public bool IsActive { get; set; } = true;
 
     public List<EventTime> EventTimes { get; set; } = null!;
 

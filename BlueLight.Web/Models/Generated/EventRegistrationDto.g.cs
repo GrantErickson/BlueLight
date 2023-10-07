@@ -16,6 +16,7 @@ namespace BlueLight.Web.Models
         private System.Guid? _EventTimeId;
         private BlueLight.Web.Models.EventTimeDtoGen _EventTime;
         private string _Email;
+        private string _Phone;
         private string _Notes;
         private int? _Quantity;
 
@@ -39,6 +40,11 @@ namespace BlueLight.Web.Models
             get => _Email;
             set { _Email = value; Changed(nameof(Email)); }
         }
+        public string Phone
+        {
+            get => _Phone;
+            set { _Phone = value; Changed(nameof(Phone)); }
+        }
         public string Notes
         {
             get => _Notes;
@@ -61,6 +67,7 @@ namespace BlueLight.Web.Models
             this.EventRegistrationId = obj.EventRegistrationId;
             this.EventTimeId = obj.EventTimeId;
             this.Email = obj.Email;
+            this.Phone = obj.Phone;
             this.Notes = obj.Notes;
             this.Quantity = obj.Quantity;
             if (tree == null || tree[nameof(this.EventTime)] != null)
@@ -80,6 +87,7 @@ namespace BlueLight.Web.Models
             if (ShouldMapTo(nameof(EventRegistrationId))) entity.EventRegistrationId = (EventRegistrationId ?? entity.EventRegistrationId);
             if (ShouldMapTo(nameof(EventTimeId))) entity.EventTimeId = (EventTimeId ?? entity.EventTimeId);
             if (ShouldMapTo(nameof(Email))) entity.Email = Email;
+            if (ShouldMapTo(nameof(Phone))) entity.Phone = Phone;
             if (ShouldMapTo(nameof(Notes))) entity.Notes = Notes;
             if (ShouldMapTo(nameof(Quantity))) entity.Quantity = (Quantity ?? entity.Quantity);
         }

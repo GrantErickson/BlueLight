@@ -10,6 +10,7 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using BlueLight.Data;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using BlueLight.Data.Services;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -53,6 +54,8 @@ services
 
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie();
+
+services.AddTransient<SignUpService>();
 
 #endregion
 

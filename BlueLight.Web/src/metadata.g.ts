@@ -80,6 +80,12 @@ export const Event = domain.types.Event = {
         required: val => (val != null && val !== '') || "Description is required.",
       }
     },
+    isActive: {
+      name: "isActive",
+      displayName: "Is Active",
+      type: "boolean",
+      role: "value",
+    },
     eventTimes: {
       name: "eventTimes",
       displayName: "Event Times",
@@ -150,6 +156,15 @@ export const EventRegistration = domain.types.EventRegistration = {
       role: "value",
       rules: {
         required: val => (val != null && val !== '') || "Email is required.",
+      }
+    },
+    phone: {
+      name: "phone",
+      displayName: "Phone",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Phone is required.",
       }
     },
     notes: {
@@ -242,6 +257,91 @@ export const EventTime = domain.types.EventTime = {
   dataSources: {
   },
 }
+export const SignUpService = domain.services.SignUpService = {
+  name: "SignUpService",
+  displayName: "Sign Up Service",
+  type: "service",
+  controllerRoute: "SignUpService",
+  methods: {
+    currentEvents: {
+      name: "currentEvents",
+      displayName: "Current Events",
+      transportType: "item",
+      httpMethod: "POST",
+      params: {
+      },
+      return: {
+        name: "$return",
+        displayName: "Result",
+        type: "collection",
+        itemType: {
+          name: "$collectionItem",
+          displayName: "",
+          role: "value",
+          type: "model",
+          get typeDef() { return (domain.types.Event as ModelType) },
+        },
+        role: "value",
+      },
+    },
+    register: {
+      name: "register",
+      displayName: "Register",
+      transportType: "item",
+      httpMethod: "POST",
+      params: {
+        eventTimeId: {
+          name: "eventTimeId",
+          displayName: "Event Time Id",
+          type: "string",
+          role: "value",
+          rules: {
+            pattern: val => !val || /^\s*[{(]?[0-9A-Fa-f]{8}[-]?(?:[0-9A-Fa-f]{4}[-]?){3}[0-9A-Fa-f]{12}[)}]?\s*$/.test(val) || "Event Time Id does not match expected format.",
+          }
+        },
+        email: {
+          name: "email",
+          displayName: "Email",
+          type: "string",
+          role: "value",
+          rules: {
+            required: val => (val != null && val !== '') || "Email is required.",
+          }
+        },
+        phone: {
+          name: "phone",
+          displayName: "Phone",
+          type: "string",
+          role: "value",
+          rules: {
+            required: val => (val != null && val !== '') || "Phone is required.",
+          }
+        },
+        quantity: {
+          name: "quantity",
+          displayName: "Quantity",
+          type: "number",
+          role: "value",
+        },
+        notes: {
+          name: "notes",
+          displayName: "Notes",
+          type: "string",
+          role: "value",
+          rules: {
+            required: val => (val != null && val !== '') || "Notes is required.",
+          }
+        },
+      },
+      return: {
+        name: "$return",
+        displayName: "Result",
+        type: "string",
+        role: "value",
+      },
+    },
+  },
+}
 
 interface AppDomain extends Domain {
   enums: {
@@ -253,6 +353,7 @@ interface AppDomain extends Domain {
     EventTime: typeof EventTime
   }
   services: {
+    SignUpService: typeof SignUpService
   }
 }
 

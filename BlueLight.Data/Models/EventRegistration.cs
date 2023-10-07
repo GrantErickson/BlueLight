@@ -11,6 +11,7 @@ public class EventRegistration
     public Guid EventTimeId { get; set; }
     public EventTime EventTime { get; set; } = null!;
     public string Email { get; set; } = null!;
+    public string Phone { get; set; } = null!;
     public string? Notes { get; set; }
     public int Quantity { get; set; } = 1;
 }

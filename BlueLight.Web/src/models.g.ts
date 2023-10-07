@@ -29,6 +29,7 @@ export interface Event extends Model<typeof metadata.Event> {
   name: string | null
   date: Date | null
   description: string | null
+  isActive: boolean | null
   eventTimes: EventTime[] | null
 }
 export class Event {
@@ -55,6 +56,7 @@ export interface EventRegistration extends Model<typeof metadata.EventRegistrati
   eventTimeId: string | null
   eventTime: EventTime | null
   email: string | null
+  phone: string | null
   notes: string | null
   quantity: number | null
 }
