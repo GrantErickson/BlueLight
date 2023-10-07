@@ -1,10 +1,10 @@
 <template>
   <v-app id="vue-app">
-    <v-app-bar color="primary">
+    <v-app-bar color="blue-darken-2">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>
         <router-link to="/" style="color: inherit">
-          Coalesce Vue Template
+          Blue Light Kitchen
         </router-link>
       </v-toolbar-title>
     </v-app-bar>

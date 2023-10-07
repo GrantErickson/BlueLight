@@ -61,7 +61,7 @@ namespace BlueLight.Web.Api
             [FromForm(Name = "email")] string email,
             [FromForm(Name = "phone")] string phone,
             [FromForm(Name = "quantity")] int quantity,
-            [FromForm(Name = "notes")] string notes)
+            [FromForm(Name = "notes")] string notes = default)
         {
             var _params = new
             {

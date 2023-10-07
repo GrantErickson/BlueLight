@@ -328,9 +328,6 @@ export const SignUpService = domain.services.SignUpService = {
           displayName: "Notes",
           type: "string",
           role: "value",
-          rules: {
-            required: val => (val != null && val !== '') || "Notes is required.",
-          }
         },
       },
       return: {

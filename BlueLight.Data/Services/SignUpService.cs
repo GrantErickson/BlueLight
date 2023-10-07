@@ -44,20 +44,20 @@ public class SignUpService
 
     [Coalesce]
     [Execute(SecurityPermissionLevels.AllowAll)]
-    public async Task<string> Register(Guid eventTimeId, string email, string phone, int quantity, string notes)
+    public async Task<string> Register(Guid eventTimeId, string email, string phone, int quantity, string? notes = null)
     {
         // Validation
-        if (quantity < 1 || quantity > 16) return "Invalid Quantity";
-        if (string.IsNullOrWhiteSpace(email) || email.Length < 8) return "Invalid email";
-        if (string.IsNullOrWhiteSpace(phone) || phone.Length < 7) return "Invalid phone";
+        if (quantity < 1 || quantity > 16) throw new ArgumentException("Invalid Quantity");
+        if (string.IsNullOrWhiteSpace(email) || email.Length < 8) throw new ArgumentException("Invalid email");
+        if (string.IsNullOrWhiteSpace(phone) || phone.Length < 7) throw new ArgumentException("Invalid phone");
 
         // Find the EventTime
         var et = _db.EventTimes
             .Include(f => f.Event)
             .FirstOrDefault(f => f.EventTimeId == eventTimeId);
         // Make sure the eventTime exists and the Event is still valid.
-        if (et == null) return "Invalid Event Time";
-        if (!et.Event.IsActive) return "Event is no longer active";
+        if (et == null) throw new ArgumentException("Invalid Event Time");
+        if (!et.Event.IsActive) throw new ArgumentException("Event is no longer active");
 
         // Create a registration
         var er = new EventRegistration
