@@ -3,7 +3,9 @@
     <v-row>
       <v-col cols="12">
         <v-card v-for="event in events" :key="event.eventId!">
-          <v-card-title> {{ event.name }} on {{ event.date }} </v-card-title>
+          <v-card-title>
+            {{ event.name }} on {{ event.date?.toDateString() }}
+          </v-card-title>
           <v-card-subtitle>
             {{ event.description }}
           </v-card-subtitle>
