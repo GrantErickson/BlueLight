@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '7.x'
           include-prerelease: true
 
-      - name: Set up node with caching
+      - name: Set up node
         uses: actions/setup-node@v3
         with:
           node-version: 16
