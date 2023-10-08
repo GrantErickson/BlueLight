@@ -1,11 +1,13 @@
 using System.Diagnostics;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlueLight.Web.Controllers;
 
 #pragma warning disable CS1998 // Method lacks 'await' operators
 
+[AllowAnonymous]
 public class HomeController : Controller
 {
     /// <summary>

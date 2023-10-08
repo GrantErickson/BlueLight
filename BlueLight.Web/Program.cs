@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 using BlueLight.Data;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using BlueLight.Data.Services;
+using BlueLight.Data.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -52,10 +54,23 @@ services
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 
+// This is for default identity with ASP.NET Core
+services.AddDefaultIdentity<ApplicationUser>().AddDefaultTokenProviders(); ;
+services.AddRazorPages();
+    //.AddRazorRuntimeCompilation();
+
+// Services for this application
+services.AddScoped<SignUpService>();
+
+services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+});
+
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie();
 
-services.AddTransient<SignUpService>();
 
 #endregion
 
@@ -79,15 +94,15 @@ if (app.Environment.IsDevelopment())
     // TODO: Dummy authentication for initial development.
     // Replace this with ASP.NET Core Identity, Windows Authentication, or some other scheme.
     // This exists only because Coalesce restricts all generated pages and API to only logged in users by default.
-    app.Use(async (context, next) =>
-    {
-        Claim[] claims = new[] { new Claim(ClaimTypes.Name, "developmentuser") };
+    //app.Use(async (context, next) =>
+    //{
+    //    Claim[] claims = new[] { new Claim(ClaimTypes.Name, "developmentuser") };
 
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await context.SignInAsync(context.User = new ClaimsPrincipal(identity));
+    //    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+    //    await context.SignInAsync(context.User = new ClaimsPrincipal(identity));
 
-        await next.Invoke();
-    });
+    //    await next.Invoke();
+    //});
     // End Dummy Authentication.
 }
 
@@ -120,6 +135,7 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers();
+app.MapRazorPages();
 
 // API fallback to prevent serving SPA fallback to 404 hits on API endpoints.
 app.Map("/api/{**any}", () => Results.NotFound());
