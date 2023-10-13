@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using BlueLight.Data.Services;
 using BlueLight.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Google;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -57,19 +58,26 @@ services
 // This is for default identity with ASP.NET Core
 services.AddDefaultIdentity<ApplicationUser>().AddDefaultTokenProviders(); ;
 services.AddRazorPages();
-    //.AddRazorRuntimeCompilation();
+//.AddRazorRuntimeCompilation();
 
 // Services for this application
 services.AddScoped<SignUpService>();
 
-services.AddAuthentication().AddGoogle(googleOptions =>
-{
-    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
-    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
-});
+services.AddAuthentication(v =>
+    {
+        v.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        v.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
+        v.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    })
+    .AddCookie()
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+    });
 
-services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        .AddCookie();
+
+
 
 
 #endregion
